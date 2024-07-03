@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="action_report_nmap_scan" model="ir.actions.report">
+            <field name="name">Print</field>
+            <field name="model">nmap.scan</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">vul_scanner.report_nmap_scan_document</field>
+            <field name="report_file">vul_scanner.report_nmap_scan_document</field>
+            <field name="binding_model_id" ref="model_nmap_scan"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

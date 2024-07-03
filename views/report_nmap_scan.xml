@@ -1,0 +1,58 @@
+<odoo>
+    <template id="report_nmap_scan_document">
+        <t t-call="web.external_layout">
+            <t t-foreach="docs" t-as="doc">
+                <main>
+                    <div class="page">
+                        <h2>Scan Report: <t t-esc="doc.name"/></h2>
+                        <p><strong>Target IPs:</strong> <t t-esc="doc.target_ips"/></p>
+                        <p><strong>Excluded IPs:</strong> <t t-esc="doc.excluded_ips or 'None'"/></p>
+                        <p><strong>Port:</strong> <t t-esc="doc.port or 'All'"/></p>
+                        <p><strong>Start Time:</strong> <t t-esc="doc.start_time"/></p>
+                        <p><strong>End Time:</strong> <t t-esc="doc.end_time"/></p>
+                        <h3>Scan Results</h3>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Host</th>
+                                    <th>Port</th>
+                                    <th>Service</th>
+                                    <th>Version</th>
+                                    <th>State</th>
+                                    <th>CVEs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.scan_results" t-as="result">
+                                    <tr>
+                                        <td><t t-esc="result.host"/></td>
+                                        <td><t t-esc="result.port"/></td>
+                                        <td><t t-esc="result.service"/></td>
+                                        <td><t t-esc="result.version"/></td>
+                                        <td><t t-esc="result.state"/></td>
+                                        <td>
+                                            <t t-foreach="result.cves" t-as="cve">
+                                                <div class="cve-entry">
+                                                    <p><strong>CVE ID:</strong> <t t-esc="cve.cve_id"/></p>
+                                                    <p><strong>Description:</strong> <t t-esc="cve.description"/></p>
+                                                    <p><strong>Severity:</strong> <t t-esc="cve.severity_level"/></p>
+                                                    <p><strong>References:</strong></p>
+                                                    <ul>
+                                                        <t t-foreach="cve.references.split('\n')" t-as="reference">
+                                                            <li><t t-esc="reference"/></li>
+                                                        </t>
+                                                    </ul>
+                                                    <hr/>
+                                                </div>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
+            </t>
+        </t>
+    </template>
+</odoo>

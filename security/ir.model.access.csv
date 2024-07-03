@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nmap_scan_user,nmap.scan user,model_nmap_scan,base.group_user,1,0,0,0
+access_nmap_scan_admin,nmap.scan admin,model_nmap_scan,base.group_system,1,1,1,1
+access_nmap_result_user,nmap.result user,model_nmap_result,base.group_user,1,0,0,0
+access_nmap_result_admin,nmap.result admin,model_nmap_result,base.group_system,1,1,1,1
+access_scan_wizard_user,scan.wizard user,model_scan_wizard,base.group_user,1,0,0,0
+access_scan_wizard_admin,scan.wizard admin,model_scan_wizard,base.group_system,1,1,1,1
+access_dashboard_user,dashboard user,model_dashboard,base.group_user,1,0,0,0
+access_dashboard_admin,dashboard admin,model_dashboard,base.group_system,1,1,1,1
+access_nmap_cve_user,nmap.cve user,model_nmap_cve,base.group_user,1,0,0,0
+access_nmap_cve_admin,nmap.cve admin,model_nmap_cve,base.group_system,1,1,1,1
+access_scan_config_user,scan.config user,model_scan_config,base.group_user,1,0,0,0
+access_scan_config_admin,scan.config admin,model_scan_config,base.group_system,1,1,1,1
+

@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <record id="view_scan_config_tree" model="ir.ui.view">
+            <field name="name">scan.config.tree</field>
+            <field name="model">scan.config</field>
+            <field name="arch" type="xml">
+                <tree string="Scan Configurations">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_scan_config_form" model="ir.ui.view">
+            <field name="name">scan.config.form</field>
+            <field name="model">scan.config</field>
+            <field name="arch" type="xml">
+                <form string="Scan Configuration">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="network_ip" placeholder="e.g., 192.168.1.0/24, 192.168.1.10-192.168.1.50"/>
+                            <field name="excluded_ips" placeholder="e.g., 192.168.1.100, 192.168.1.101"/>
+                            <field name="port" placeholder="e.g., 22, 80, 443, 1000-2000"/>
+                            <field name="is_scheduled"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_scan_config" model="ir.actions.act_window">
+            <field name="name">Network Scan Configuration</field>
+            <field name="res_model">scan.config</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_scan_config" name="Configuration" parent="root_menu" sequence="30"/>
+        <menuitem id="menu_scan_config_items" name="Network scan" parent="menu_scan_config" action="action_scan_config"/>
+    </data>
+</odoo>

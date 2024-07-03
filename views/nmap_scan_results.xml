@@ -1,0 +1,202 @@
+<odoo>
+    <record id="view_nmap_scan_tree" model="ir.ui.view">
+        <field name="name">nmap.scan.tree</field>
+        <field name="model">nmap.scan</field>
+        <field name="arch" type="xml">
+            <tree string="Nmap Scans" create="false">
+                <field name="name"/>
+                <field name="status"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_nmap_scan_form" model="ir.ui.view">
+        <field name="name">nmap.scan.form</field>
+        <field name="model">nmap.scan</field>
+        <field name="arch" type="xml">
+            <form string="Nmap Scan" create="false">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="status" readonly="1"/>
+                        <field name="start_time" readonly="1"/>
+                        <field name="end_time" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Scan Results">
+                            <field name="scan_results">
+                                <tree string="Scan Results" create="false">
+                                    <field name="host"/>
+                                    <field name="port"/>
+                                    <field name="service"/>
+                                    <field name="version"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_nmap_result_form" model="ir.ui.view">
+        <field name="name">nmap.result.form</field>
+        <field name="model">nmap.result</field>
+        <field name="arch" type="xml">
+            <form string="Vulnérabilités du service" create="false">
+                <sheet>
+                    <group>
+                        <field name="service" readonly="1"/>
+                        <field name="version" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="CVE List">
+                            <field name="cves">
+                                <tree string="CVE List" create="false" decoration-info="severity_level == 'LOW'"
+                                      decoration-warning="severity_level == 'MEDIUM'"
+                                      decoration-danger="severity_level == 'HIGH'">
+                                    <field name="cve_id"/>
+<!--                                    <field name="title"/>-->
+                                    <field name="description"/>
+                                    <field name="severity_level"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nmap_cve_form" model="ir.ui.view">
+        <field name="name">nmap.cve.form</field>
+        <field name="model">nmap.cve</field>
+        <field name="arch" type="xml">
+                <form string="Details of CVE">
+                    <group>
+                        <field name="cve_id"/>
+<!--                        <field name="title"/>-->
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                    <group>
+                        <field name="references" widget="text" readonly="1" colspan="4"/>
+                    </group>
+                    <footer>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+        </field>
+    </record>
+
+    <record id="ir_cron_nmap_scan" model="ir.cron">
+        <field name="name">Scheduled Nmap Scan</field>
+        <field name="model_id" ref="model_nmap_scan"/>
+        <field name="state">code</field>
+        <field name="code">model.start_scan()</field>
+        <field name="active" eval="True"/>
+        <field name="interval_type">days</field>
+        <field name="interval_number">1</field>
+        <field name="numbercall" eval="-1"/>
+        <field name="doall" eval="False"/>
+        <field name="nextcall">2024-06-26 00:00:00</field>
+    </record>
+
+
+
+<!--    <record id="view_nmap_result_form" model="ir.ui.view">-->
+<!--        <field name="name">nmap.result.form</field>-->
+<!--        <field name="model">nmap.result</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="Vulnérabilités du service" create="false">-->
+<!--                <sheet>-->
+<!--                    <group>-->
+<!--                        <field name="service" readonly="1"/>-->
+<!--                        <field name="version" readonly="1"/>-->
+<!--                    </group>-->
+<!--                    <notebook>-->
+<!--                        <page string="Liste des CVEs">-->
+<!--                            <field name="cves">-->
+<!--                                <tree string="Liste des CVEs" create="false">-->
+<!--                                    <field name="cve_id"/>-->
+<!--                                    <field name="title"/>-->
+<!--                                    <field name="description"/>-->
+<!--                                    <field name="remediation"/>-->
+<!--                                    <field name="references"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+<!--                        </page>-->
+<!--                    </notebook>-->
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+
+<!--    <record  id="ir_cron_network_scan" model="ir.cron">-->
+<!--            <field name="name">Scan du réseau : Planifier un scan</field>-->
+<!--            <field name="model_id" ref="model_nmap_scan"/>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="code">model.start_scan_cron()</field>-->
+<!--            <field name="interval_number">1</field>-->
+<!--            <field name="interval_type">days</field>-->
+<!--            <field name="numbercall">-1</field>-->
+<!--&lt;!&ndash;            <field name="nextcall">fields.Datetime.now()</field>&ndash;&gt;-->
+<!--    </record>-->
+
+    <record id="view_nmap_scan_wizard_form" model="ir.ui.view">
+        <field name="name">nmap.scan.wizard.form</field>
+        <field name="model">scan.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Start Nmap Scan">
+                <group>
+<!--                    <field name="name"/>-->
+                    <field name="scan_config_id"/>
+                </group>
+                <footer>
+                    <button string="Start Scan" type="object" name="start_scan" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_nmap_scan" model="ir.actions.act_window">
+        <field name="name">Network Scans</field>
+        <field name="res_model">nmap.scan</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_nmap_scan_wizard" model="ir.actions.act_window">
+        <field name="name">New Network Scan</field>
+        <field name="res_model">scan.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_dashboard" model="ir.actions.act_window">
+        <field name="name">Scan Dashboard</field>
+        <field name="res_model">dashboard</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem id="root_menu" name="Vulnerability Scanner"/>
+    <menuitem id="menu_dashboard" name="Dashboard" parent="root_menu" sequence="10"/>
+    <menuitem id="menu_nmap_scan" name="Network Scan" parent="root_menu" sequence="20"/>
+    <menuitem id="menu_start_nmap_scan" name="New Scan" parent="menu_nmap_scan" action="action_nmap_scan_wizard"  sequence="20"/>
+    <menuitem id="menu_nmap_scan_list" name="Scans" parent="menu_nmap_scan" action="action_nmap_scan" sequence="30"/>
+
+
+</odoo>
